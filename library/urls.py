@@ -23,7 +23,11 @@ router.register('users', UserModelViewSet)
 router.register('projects', ProjectModelViewSet)
 router.register('todo', ToDoModelViewSet)
 
+filter_router = DefaultRouter()
+filter_router.register('project_name', ProjectModelViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('filters/', include(filter_router.urls)),
 ]

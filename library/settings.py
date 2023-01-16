@@ -40,9 +40,13 @@ INSTALLED_APPS = [
     'app_new',
     'rest_framework',
     'corsheaders',
+    'django_filters',
 
 
 ]
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
