@@ -44,11 +44,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django.contrib.staticfiles',
     'drf_yasg',
-
+    "django.contrib.staticfiles",
+    "graphene_django"
 
 ]
 
-
+GRAPHENE = {
+    "SCHEMA": "library.schema.schema"
+}
 
 
 MIDDLEWARE = [
