@@ -1,8 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions, viewsets
 from .models import User, Project, ToDo
-from .serializers import UserModelSerializer, ProjectModelSerializer, ToDoModelSerializer
+from .serializers import UserModelSerializer, ProjectModelSerializer, ToDoModelSerializer, UserSerializerWithAddInfo
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework import generics
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -10,6 +11,15 @@ class ProjectLimitOffsetPagination(LimitOffsetPagination):
 
 class ToDoLimitOffsetPagination(LimitOffsetPagination):
     default_limit = 10
+
+class UserListAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
+    
+    def get_serializer_class(self):
+        if self.request.version == '1.2':
+            return UserSerializerWithAddInfo
+            return UserModelSerializer
 
 
 class UserModelViewSet(ModelViewSet):

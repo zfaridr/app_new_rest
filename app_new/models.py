@@ -8,6 +8,8 @@ class User(models.Model):
     last_name = models.CharField(max_length=64)
     email = models.EmailField(unique=True)
     birthday_year = models.DateField()
+    is_superuser = models.CharField(max_length=64)
+    is_staff = models.CharField(max_length=64)
 
     def __str__(self):
         return self.user_id

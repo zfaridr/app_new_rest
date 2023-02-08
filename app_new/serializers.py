@@ -8,6 +8,11 @@ class UserModelSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class UserSerializerWithAddInfo(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('is_superuser', 'is_staff')
+
 class ProjectModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
