@@ -53,6 +53,10 @@ GRAPHENE = {
     "SCHEMA": "library.schema.schema"
 }
 
+GRAPHENE = {
+    "SCHEMA": "library.schema.schema"
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
