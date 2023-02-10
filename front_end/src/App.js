@@ -32,6 +32,51 @@ class App extends React.Component {
         }
     }
     
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers, headers})
+            .then(response => {
+        this.setState({projects: this.state.projects.filter((item)=>item.id !== id)})
+            }).catch(error => console.log(error))
+    }
+
+    createProject(project_id, project_name, start_date, finish_date, participants) {
+        const headers = this.get_headers()
+        const data = {project_id: project_id, project_name: project_name, start_date: start_date, finish_date: finish_date, participants: participants}
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers, headers})
+            .then(response => {
+                let new_project = response.data
+                const user = this.state.users.filter((item) => item.id ===
+                new_project.user)[0]
+                new_project.user = user
+                this.setState({projects: [...this.state.projects, new_project]})
+            }).catch(error => console.log(error))
+    }
+
+    deleteToDo(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers, headers})
+            .then(response => {
+        this.setState({todo: this.state.todo.filter((item)=>item.id !== id)})
+            }).catch(error => console.log(error))
+    }
+
+    createToDo(text, init_user, init_date, change_date) {
+        const headers = this.get_headers()
+        const data = {text: text, init_user: init_user, init_date: init_date, change_date: change_date}
+        axios.post(`http://127.0.0.1:8000/api/todo/`, data, {headers, headers})
+            .then(response => {
+                let new_project = response.data
+                const user = this.state.users.filter((item) => item.id ===
+                new_todo.user)[0]
+                new_todo.user = user
+                this.setState({todo: [...this.state.todo, new_todo]})
+            }).catch(error => console.log(error))
+    }
+
+
+
+
     set_token(token) {
         const cookies = new Cookies()
         cookies.set('token', token)
@@ -118,7 +163,7 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
-    componentDidMountT() {
+    componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/todo')
             .then(response => {
                 const todo = response.data
@@ -154,10 +199,13 @@ class App extends React.Component {
                         </ul>
                     </nav>
                     <Switch>
-                        <Route exact path='/users' component={componentDidMountU} />
-                        <Route exact path='/projects' component={componentDidMountP}/>
-                        <Route exact path='/todo' component={componentDidMountT} />
+                        <Route exact path='/users' component={componentDidMount} />
+                        <Route exact path='/projects' component={componentDidMount}/>
+                        <Route exact path='/todo' component={componentDidMount} />
                         <Route exact path='/login' component={() => <LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
+                        <Route exact path='/projects/create' component={() => <projectForm />} />
+                        <Route exact path='/projects' component={() => <ProjectsList items={this.state.projects} deleteProject={(id)=>this.deleteBook(id)} />} />
+                        <Route exact path='/projects/create' component={() => <projectForm createProject={(project_id, project_name, start_date, finish_date, participants) => this.createProject(project_id, project_name, start_date, finish_date, participants)} />} />
                         <Route component={NotFound}/>
                     </Switch>                      
                     
